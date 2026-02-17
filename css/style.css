@@ -20,6 +20,7 @@
     --dateColor: #3f56a4;
     --quoteColor: #c5cbe4;
     --commentPaleColor: #99a140;
+    --commentPaleColorLight: #cad179;
     --commentColor: #255E33;
 }
 
@@ -306,9 +307,23 @@ a.info {
 /**
  * Partie admin
  */ 
+.adminMenu {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.adminMenu a {
+    margin:  0 20px;
+    font-size: 16px;
+    color: white;
+    background-color: var(--commentColor);
+    border: none;
+}
 
 .adminArticle {
-    margin-bottom: 20px;
     background-color: var(--commentPaleColor);
     color: white;
 }
@@ -337,6 +352,73 @@ a.info {
     border: 1px solid var(--backgroundColor);
 }
 
+.monitoringArticle {
+    background-color: var(--commentPaleColor);
+    color: white;
+}
+
+.monitoringHead {
+    display: flex; 
+    background-color: var(--headerColor);
+}
+
+.monitoringHead div {
+    display: flex;
+    align-items: center;
+}
+
+.monitoringHead .title {
+    font-weight: bold;
+    min-width: 400px;
+    width: 400px;
+}
+
+.monitoringHead .content {
+    font-weight: bold;
+    min-width: 150px;
+    width: 150px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.monitoringHead > div {
+    padding: 20px;
+    border: 1px solid var(--backgroundColor);
+}
+
+
+
+.monitoringLine {
+    display: flex; 
+    background-color: var(--commentPaleColor);
+}
+.monitoringLine.light{
+    display: flex; 
+    background-color: var(--commentPaleColorLight) ;
+}
+.monitoringLine div {
+    display: flex;
+    align-items: center;
+}
+
+.monitoringLine .title {
+    min-width: 400px;
+    width: 400px;
+}
+
+.monitoringLine .content {
+    min-width: 150px;
+    width: 150px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.monitoringLine > div {
+    padding: 20px;
+    border: 1px solid var(--backgroundColor);
+}
 /** 
  * Footer global de la page.
  */

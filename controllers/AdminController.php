@@ -26,6 +26,62 @@ class AdminController {
     }
 
     /**
+     * Affiche la page de monitoring.
+     * @return void
+     */
+    public function showMonitoring() : void
+    {
+        // On vérifie que l'utilisateur est connecté.
+        $this->checkIfUserIsConnected();
+
+        // On récupère les articles.
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->getAllArticles();
+
+        //on récupère le nombre de commentaires pour chaque article.
+        $commentManager = new CommentManager();
+        $comments = $commentManager->getCommentsCountByArticle();
+
+        // On affiche la page de monitoring.
+        $view = new View("Monitoring");
+        $view->render("monitoring", [
+            'articles' => $articles,
+            'comments' => $comments
+        ]);
+    }
+
+
+    /**
+    * Affiche la page de monitoring des commentaires d'un article.
+    * @return void
+    */ 
+    public function showCommentsByArticle() : void
+    { 
+        $this->checkIfUserIsConnected();
+
+        // On récupère l'id de l'article.
+        $id = Utils::request("id", -1);
+
+        // On récupère l'article associé.
+        $articleManager = new ArticleManager();
+        $article = $articleManager->getArticleById($id);
+
+        if (!$article) {
+            throw new Exception("L'article demandé n'existe pas.");
+        }
+
+        // On récupère les commentaires de l'article.
+        $commentManager = new CommentManager();
+        $comments = $commentManager->getAllCommentsByArticleId($id);
+
+        // On affiche la page de monitoring des commentaires de l'article.
+        $view = new View("Commentaires de l'article : " . $article->getTitle());
+        $view->render("adminListComment", [
+            'article' => $article,
+            'comments' => $comments
+        ]); 
+    }
+    /**
      * Vérifie que l'utilisateur est connecté.
      * @return void
      */

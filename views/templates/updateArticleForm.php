@@ -16,7 +16,9 @@
         <button class="submit"><?= $article->getId() == -1 ? "Ajouter" : "Modifier" ?></button>
     </div>
 </form>
-
+<?php
+include "views/templates/_parts/admin_menu.php";
+?>
 <script>
 
     
