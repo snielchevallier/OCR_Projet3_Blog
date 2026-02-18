@@ -22,6 +22,26 @@ class ArticleManager extends AbstractEntityManager
     }
     
     /**
+     * Récupère tous les articles.
+     * @return array : un tableau d'objets Article.
+     */
+    public function getAllArticlesSorted(string $sort = "creation_date", string $order = "desc") : array
+    {
+        if($sort==="nb_comments") {
+            $sql = "SELECT a.*, COUNT(c.id) as nb_comments FROM article a LEFT JOIN comment c ON a.id = c.id_article GROUP BY a.id ORDER BY nb_comments $order";
+        } else {
+            $sql = "SELECT * FROM article ORDER BY $sort $order";
+        }
+        $result = $this->db->query($sql);
+        $articles = [];
+
+        while ($article = $result->fetch()) {
+            $articles[] = new Article($article);
+        }
+        return $articles;
+    }
+
+    /**
      * Récupère un article par son id.
      * @param int $id : l'id de l'article.
      * @return Article|null : un objet Article ou null si l'article n'existe pas.
@@ -59,7 +79,7 @@ class ArticleManager extends AbstractEntityManager
      */
     public function addArticle(Article $article) : void
     {
-        $sql = "INSERT INTO article (id_user, title, content, date_creation) VALUES (:id_user, :title, :content, NOW())";
+        $sql = "INSERT INTO article (id_user, title, content, date_creation, date_update) VALUES (:id_user, :title, :content, NOW(), NOW())";
         $this->db->query($sql, [
             'id_user' => $article->getIdUser(),
             'title' => $article->getTitle(),

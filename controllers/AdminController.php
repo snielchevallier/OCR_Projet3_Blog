@@ -36,7 +36,25 @@ class AdminController {
 
         // On récupère les articles.
         $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $sorter=Utils::request("sort", "creation_date");
+        $order=Utils::request("order", "desc");
+        if($order !== "desc" && $order !== "asc") {
+            $order = "asc";
+        }
+        switch ($sorter) {
+            case "title":
+                $articles = $articleManager->getAllArticlesSorted("title",$order);
+                break;
+            case "nb_views":
+                $articles = $articleManager->getAllArticlesSorted("views", $order);
+                break;
+            case "nb_comments":
+                $articles = $articleManager->getAllArticlesSorted("nb_comments", $order);
+                break;
+            default:
+                $articles = $articleManager->getAllArticlesSorted("date_creation", $order);
+        }
+        //$articles = $articleManager->getAllArticlesSorted(Utils::request("sort", "creation_date"), Utils::request("order", "desc"));
 
         //on récupère le nombre de commentaires pour chaque article.
         $commentManager = new CommentManager();

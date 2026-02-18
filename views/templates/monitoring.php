@@ -8,26 +8,43 @@
 <h2>Monitoring des articles</h2>
 
 <div class="monitoringArticle">
+    <?php
+    $sorter=Utils::request("sort", "creation_date");
+    $order=Utils::request("order", "desc");
+    $pictoOrder="▼";
+    if($order === "desc") {
+        $neworder = "asc";
+        $pictoOrder="▼";
+    } else {
+        $neworder = "desc";
+        $pictoOrder="▲";
+    }
+    ?>
     <div class="monitoringHead">
-        <div class="title">Titre</div>
-        <div class="content">Nombre de vues</div>
-        <div class="content">Nombre de commentaires</div>
-        <div class="content">Date de création</div>
+        <div class="title"><a href="index.php?action=monitoringArticles&sort=title&order=<?= $neworder ?>"><?= ($sorter==='title') ? $pictoOrder : ''?> Titre</a></div>
+        <div class="content"><a href="index.php?action=monitoringArticles&sort=nb_views&order=<?= $neworder ?>"><?= ($sorter==='nb_views') ? $pictoOrder : ''?> Nombre de vues</a></div>
+        <div class="content"><a href="index.php?action=monitoringArticles&sort=nb_comments&order=<?= $neworder ?>"><?= ($sorter==='nb_comments') ? $pictoOrder : ''?> Nombre de commentaires</a></div>
+        <div class="content"><a href="index.php?action=monitoringArticles&sort=creation_date&order=<?= $neworder ?>"><?= ($sorter==='creation_date') ? $pictoOrder : ''?> Date de création</a></div>
         <div class="content">commentaires</div>
     </div>
-    
+            
             <?php 
-            $i = 0; 
-            foreach ($articles as $article) { ?>
-                <div class="monitoringLine<?= $i%2 === 1 ? ' light' : '' ?>">
-                    <div class="title"><?= $article->getTitle() ?></div>
-                    <div class="content"><?= $article->getViews() ?></div>
-                    <div class="content"><?= $comments[$article->getId()] ?? 0 ?></div>
-                    <div class="content"><?= $article->getDateCreation()->format("d/m/Y") ?></div>
-                    <div class="content"><a class="submit" href="index.php?action=showCommentsByArticle&id=<?= $article->getId() ?>">Voir les commentaires</a></div>
-                </div>
-            <?php 
-            $i++; 
+            if(empty($articles)) {?>
+               <div class="monitoringLine"><div class="full">Aucun article trouvé.</div></div>
+            <?php
+            }else{
+                $i = 0; 
+                foreach ($articles as $article) { ?>
+                    <div class="monitoringLine<?= $i%2 === 1 ? ' light' : '' ?>">
+                        <div class="title"><?= $article->getTitle() ?></div>
+                        <div class="content"><?= $article->getViews() ?></div>
+                        <div class="content"><?= $comments[$article->getId()] ?? 0 ?></div>
+                        <div class="content"><?= $article->getDateCreation()->format("d/m/Y") ?></div>
+                        <div class="content"><?php if($comments[$article->getId()] ?? 0 > 0) { ?><a class="submit" href="index.php?action=showCommentsByArticle&id=<?= $article->getId() ?>">Voir les commentaires</a><?php } ?></div>
+                    </div>
+                <?php 
+                $i++; 
+                }
             } ?>
 </div>
 <?php

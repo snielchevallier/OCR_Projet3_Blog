@@ -387,8 +387,6 @@ a.info {
     border: 1px solid var(--backgroundColor);
 }
 
-
-
 .monitoringLine {
     display: flex; 
     background-color: var(--commentPaleColor);
@@ -410,6 +408,14 @@ a.info {
 .monitoringLine .content {
     min-width: 150px;
     width: 150px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.monitoringLine .full {
+    min-width: 150px;
+    width: 100%;
     align-items: center;
     justify-content: center;
     text-align: center;
