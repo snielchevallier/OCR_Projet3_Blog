@@ -30,7 +30,7 @@
             
             <?php 
             if(empty($articles)) {?>
-               <div class="monitoringLine"><div class="full">Aucun article trouvé.</div></div>
+               <div class="monitoringLine"><div class="full">Aucun article trouvé.</div>
             <?php
             }else{
                 $i = 0; 
@@ -40,7 +40,7 @@
                         <div class="content"><?= $article->getViews() ?></div>
                         <div class="content"><?= $comments[$article->getId()] ?? 0 ?></div>
                         <div class="content"><?= $article->getDateCreation()->format("d/m/Y") ?></div>
-                        <div class="content"><?php if($comments[$article->getId()] ?? 0 > 0) { ?><a class="submit" href="index.php?action=showCommentsByArticle&id=<?= $article->getId() ?>">Voir les commentaires</a><?php } ?></div>
+                        <div class="content"><?php if($comments[$article->getId()] ?? 0 > 0) { ?><a class="submit" href="index.php?action=showCommentsByArticle&id_article=<?= $article->getId() ?>">Voir les commentaires</a><?php } ?></div>
                     </div>
                 <?php 
                 $i++; 

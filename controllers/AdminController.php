@@ -78,11 +78,11 @@ class AdminController {
         $this->checkIfUserIsConnected();
 
         // On récupère l'id de l'article.
-        $id = Utils::request("id", -1);
+        $id_article = Utils::request("id_article", -1);
 
         // On récupère l'article associé.
         $articleManager = new ArticleManager();
-        $article = $articleManager->getArticleById($id);
+        $article = $articleManager->getArticleById($id_article);
 
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
@@ -90,7 +90,7 @@ class AdminController {
 
         // On récupère les commentaires de l'article.
         $commentManager = new CommentManager();
-        $comments = $commentManager->getAllCommentsByArticleId($id);
+        $comments = $commentManager->getAllCommentsByArticleId($id_article);
 
         // On affiche la page de monitoring des commentaires de l'article.
         $view = new View("Commentaires de l'article : " . $article->getTitle());
@@ -249,5 +249,24 @@ class AdminController {
        
         // On redirige vers la page d'administration.
         Utils::redirect("admin");
+    }
+
+    /**
+     * Suppression d'un commentaire.
+     * @return void
+     */
+    public function deleteComment() : void
+    {
+        $this->checkIfUserIsConnected();
+
+        $id = Utils::request("id", -1);
+        $idArticle = Utils::request("id_article", -1);
+
+        // On supprime le commentaire.
+        $commentManager = new CommentManager();
+        $commentManager->deleteComment($id);
+       
+        // On redirige vers la page de monitoring des commentaires de l'article.
+        Utils::redirect("showCommentsByArticle", ['id_article' => $idArticle]);
     }
 }
